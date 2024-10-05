@@ -21,9 +21,8 @@ defmodule TwimaWeb.Router do
     get "/", PageController, :home
 
     get "/choose", PageController, :choose
-    post "/choose", PageController, :post_choose
 
-    get "/compose", PageController, :compose
+    # get "/compose", PageController, :compose
     post "/compose", PageController, :post_status
   end
 

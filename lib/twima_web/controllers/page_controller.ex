@@ -7,15 +7,17 @@ defmodule TwimaWeb.PageController do
     render(conn, :home)
   end
 
+  def choose(conn, %{"url" => _} = params) do
+    post_choose(conn, params)
+  end
+
   def choose(conn, _params) do
     render(conn, :choose)
   end
 
-  def compose(conn, _params) do
-    render(conn, :compose)
-  end
+  def post_choose(conn, %{"url" => url}) do
+    post_data = Twima.Fxtwi.get!(Req.new(), url)
 
-  def post_status(conn, params) do
-    compose(conn, params)
+    render(conn, :compose, post_data)
   end
 end

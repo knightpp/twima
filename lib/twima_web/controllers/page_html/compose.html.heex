@@ -1,25 +1,20 @@
 <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
   <h1 class="text-2xl font-bold mb-4 text-gray-700">Create a status</h1>
+  <h1 class="text-2xl font-bold mb-4 text-gray-700"><%= @title %></h1>
 
   <!-- Image/Video Preview -->
   <div id="media-preview" class="mb-4 hidden">
     <img
       id="preview-image"
-      src="#"
+      src={ @image }
       alt="Image Preview"
       class="max-w-full h-auto rounded-lg mb-4 hidden"
     />
     <video id="preview-video" controls class="max-w-full rounded-lg hidden"></video>
   </div>
 
-  <!-- File Upload -->
-  <label class="block text-sm font-medium text-gray-700 mb-1">Upload Image/Video</label>
-  <input
-    type="file"
-    id="media-upload"
-    accept="image/*,video/*"
-    class="mb-4 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-blue-500"
-  />
+  <!-- Media -->
+  <input type="hidden" id="media-upload" accept="image/*,video/*" />
 
   <!-- Text Field -->
   <label for="post-content" class="block text-sm font-medium text-gray-700 mb-1">
@@ -30,7 +25,7 @@
     rows="4"
     class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-4"
     placeholder="Write something..."
-  ><%= @post_text %></textarea>
+  ><%= @description %></textarea>
 
   <!-- Submit Button -->
   <button
@@ -40,31 +35,3 @@
     Post
   </button>
 </div>
-
-<script>
-  document.getElementById('media-upload').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    const previewImage = document.getElementById('preview-image');
-    const previewVideo = document.getElementById('preview-video');
-    const mediaPreview = document.getElementById('media-preview');
-    
-    if (file) {
-      const fileURL = URL.createObjectURL(file);
-      
-      if (file.type.startsWith('image')) {
-        previewImage.src = fileURL;
-        previewImage.classList.remove('hidden');
-        previewVideo.classList.add('hidden');
-      } else if (file.type.startsWith('video')) {
-        previewVideo.src = fileURL;
-        previewVideo.classList.remove('hidden');
-        previewImage.classList.add('hidden');
-      }
-      mediaPreview.classList.remove('hidden');
-    } else {
-      mediaPreview.classList.add('hidden');
-      previewImage.classList.add('hidden');
-      previewVideo.classList.add('hidden');
-    }
-  });
-</script>
