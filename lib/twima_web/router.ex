@@ -8,6 +8,11 @@ defmodule TwimaWeb.Router do
     plug :put_root_layout, html: {TwimaWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug TwimaWeb.Plugs.LoginRedirect
+  end
+
+  pipeline :api_auth do
+    plug TwimaWeb.Plugs.ApiAuth
   end
 
   pipeline :api do
@@ -19,11 +24,7 @@ defmodule TwimaWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-
     get "/choose", PageController, :choose
-
-    # get "/compose", PageController, :compose
-    post "/compose", PageController, :post_status
   end
 
   scope "/api", TwimaWeb do
@@ -31,6 +32,12 @@ defmodule TwimaWeb.Router do
 
     post "/register_app", ApiController, :register_app
     get "/consume", ApiController, :consume
+
+    scope "/" do
+      pipe_through :api_auth
+
+      post "/post", ApiController, :post_status
+    end
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

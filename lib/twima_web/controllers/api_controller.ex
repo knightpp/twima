@@ -38,7 +38,7 @@ defmodule TwimaWeb.ApiController do
         secure: true,
         same_site: "Strict"
       )
-      |> redirect(to: ~p"/compose")
+      |> redirect(to: ~p"/choose")
     else
       conn
       |> put_flash(:error, "Invalid state parameter")
@@ -53,5 +53,14 @@ defmodule TwimaWeb.ApiController do
     conn
     |> put_session(:state, state)
     |> redirect(external: url)
+  end
+
+  def post_status(conn, params) do
+    dbg(params)
+
+    conn
+    |> fetch_flash()
+    |> put_flash(:info, "Posted!")
+    |> redirect(to: ~p"/choose")
   end
 end
