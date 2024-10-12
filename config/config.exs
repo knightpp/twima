@@ -9,7 +9,8 @@ import Config
 
 config :twima,
   ecto_repos: [Twima.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  char_limit: 500
 
 # Configures the endpoint
 config :twima, TwimaWeb.Endpoint,

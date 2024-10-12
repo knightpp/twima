@@ -1,6 +1,8 @@
 defmodule Twima.Mastodon.Auth do
   alias Twima.App
 
+  @scopes "write:statuses write:media"
+
   def post_app(url) do
     %{
       status: 200,
@@ -15,7 +17,7 @@ defmodule Twima.Mastodon.Auth do
         form: [
           client_name: "twima helper",
           redirect_uris: "http://localhost:4000/api/consume",
-          scopes: "write:statuses",
+          scopes: @scopes,
           website: "https://mastodon.knightpp.cc/@knightpp"
         ]
       )
@@ -33,7 +35,7 @@ defmodule Twima.Mastodon.Auth do
       |> URI.append_query(
         URI.encode_query(
           client_id: creds.client_id,
-          scope: "write:statuses",
+          scope: @scopes,
           redirect_uri: "http://localhost:4000/api/consume",
           response_type: "code",
           state: state
