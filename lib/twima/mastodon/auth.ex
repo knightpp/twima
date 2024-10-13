@@ -2,8 +2,10 @@ defmodule Twima.Mastodon.Auth do
   alias Twima.App
 
   @scopes "write:statuses write:media"
+  @domain Application.compile_env!(:twima, :base_url)
+  @redirect_uri "#{@domain}/api/consume"
 
-  def post_app(url) do
+  def post_app(url) when is_binary(url) do
     %{
       status: 200,
       body: %{
@@ -16,7 +18,7 @@ defmodule Twima.Mastodon.Auth do
         url: "/api/v1/apps",
         form: [
           client_name: "twima helper",
-          redirect_uris: "http://localhost:4000/api/consume",
+          redirect_uris: @redirect_uri,
           scopes: @scopes,
           website: "https://mastodon.knightpp.cc/@knightpp"
         ]
@@ -36,7 +38,7 @@ defmodule Twima.Mastodon.Auth do
         URI.encode_query(
           client_id: creds.client_id,
           scope: @scopes,
-          redirect_uri: "http://localhost:4000/api/consume",
+          redirect_uri: @redirect_uri,
           response_type: "code",
           state: state
         )
@@ -46,7 +48,7 @@ defmodule Twima.Mastodon.Auth do
     {state, url}
   end
 
-  def verify_credentials(url, access_token) do
+  def verify_credentials(url, access_token) when is_binary(url) and is_binary(access_token) do
     %{status: status} =
       Req.get!(
         base_url: url,
@@ -65,7 +67,7 @@ defmodule Twima.Mastodon.Auth do
         form: [
           client_id: creds.client_id,
           client_secret: creds.client_secret,
-          redirect_uri: "http://localhost:4000/api/consume",
+          redirect_uri: @redirect_uri,
           grant_type: "authorization_code",
           code: code,
           scope: "write.statuses"

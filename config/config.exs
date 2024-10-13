@@ -10,7 +10,8 @@ import Config
 config :twima,
   ecto_repos: [Twima.Repo],
   generators: [timestamp_type: :utc_datetime],
-  char_limit: 500
+  char_limit: 500,
+  base_url: "http://localhost:4000"
 
 # Configures the endpoint
 config :twima, TwimaWeb.Endpoint,

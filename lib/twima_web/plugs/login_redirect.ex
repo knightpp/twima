@@ -1,23 +1,27 @@
 defmodule TwimaWeb.Plugs.LoginRedirect do
   def init(default), do: default
 
-  def call(%{req_cookies: %{"token" => nil}, request_path: "/"} = conn, _default) do
-    conn
-  end
+  def call(%{request_path: "/"} = conn, _default) do
+    case Plug.Conn.get_session(conn, :token) do
+      nil ->
+        conn
 
-  def call(%{req_cookies: %{"token" => _}, request_path: "/"} = conn, _default) do
-    conn
-    |> Phoenix.Controller.redirect(to: "/choose")
-    |> Plug.Conn.halt()
-  end
-
-  def call(%{req_cookies: %{"token" => nil}} = conn, _default) do
-    conn
-    |> Phoenix.Controller.redirect(to: "/")
-    |> Plug.Conn.halt()
+      _ ->
+        conn
+        |> Phoenix.Controller.redirect(to: "/choose")
+        |> Plug.Conn.halt()
+    end
   end
 
   def call(conn, _default) do
-    conn
+    case Plug.Conn.get_session(conn, :token) do
+      nil ->
+        conn
+        |> Phoenix.Controller.redirect(to: "/")
+        |> Plug.Conn.halt()
+
+      _ ->
+        conn
+    end
   end
 end

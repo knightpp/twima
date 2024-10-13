@@ -8,7 +8,9 @@ defmodule TwimaWeb.Endpoint do
     store: :cookie,
     key: "_twima_key",
     signing_salt: "FD7cWZI+",
-    same_site: "Lax"
+    same_site: "Lax",
+    secure: true,
+    max_age: 90 * div(:timer.hours(24), 1000)
   ]
 
   socket "/live", Phoenix.LiveView.Socket,

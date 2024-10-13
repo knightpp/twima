@@ -31,22 +31,10 @@ defmodule TwimaWeb.ApiController do
       {:ok, creds} = Memcache.pop(state)
       %{"access_token" => token} = Auth.consume_code(creds, code)
 
-      age = div(90 * :timer.hours(24), 1000)
-
       conn
       |> delete_session(:state)
-      |> put_resp_cookie("token", token,
-        max_age: age,
-        http_only: true,
-        secure: true,
-        same_site: "Strict"
-      )
-      |> put_resp_cookie("instance_url", creds.url,
-        max_age: age,
-        http_only: true,
-        secure: true,
-        same_site: "Strict"
-      )
+      |> put_session(:token, token)
+      |> put_session(:instance_url, creds.url)
       |> redirect(to: ~p"/choose")
     else
       conn
@@ -65,10 +53,7 @@ defmodule TwimaWeb.ApiController do
     |> redirect(external: url)
   end
 
-  def post_status(
-        %{req_cookies: %{"token" => token, "instance_url" => instance_url}} = conn,
-        params
-      ) do
+  def post_status(%{assigns: %{token: token, instance_url: instance_url}} = conn, params) do
     req = Twima.Mastodon.new(instance_url, token)
     %{"url" => url} = Twima.Mastodon.Fxtwi.post!(req, params)
 

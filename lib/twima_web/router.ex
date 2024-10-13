@@ -25,6 +25,7 @@ defmodule TwimaWeb.Router do
 
     get "/", PageController, :home
     get "/choose", PageController, :choose
+    get "/logout", PageController, :logout
   end
 
   scope "/api", TwimaWeb do

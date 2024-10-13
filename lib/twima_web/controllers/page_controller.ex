@@ -13,4 +13,10 @@ defmodule TwimaWeb.PageController do
   def choose(conn, _params) do
     render(conn, :choose)
   end
+
+  def logout(conn, _params) do
+    conn
+    |> configure_session(drop: true)
+    |> redirect(to: ~p"/")
+  end
 end

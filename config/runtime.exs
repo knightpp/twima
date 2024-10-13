@@ -20,6 +20,11 @@ if System.get_env("PHX_SERVER") do
   config :twima, TwimaWeb.Endpoint, server: true
 end
 
+case System.fetch_env("BASE_URL") do
+  {:ok, base_url} -> config :twima, base_url: base_url
+  :error -> :ok
+end
+
 if config_env() == :prod do
   database_path =
     System.get_env("DATABASE_PATH") ||
