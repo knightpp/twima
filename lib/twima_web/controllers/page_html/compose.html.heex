@@ -18,8 +18,9 @@
     rows="4"
     class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-4"
     placeholder="Write something..."
-  ><%= @description %></textarea>
+  >Originally posted: <%= @url %>
 
+  <%= @description %></textarea>
   <input type="hidden" name="title" value={@title} />
   <input type="hidden" name="url" value={@url} />
   <input type="hidden" name="image" value={@image} />
