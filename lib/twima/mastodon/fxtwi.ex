@@ -11,14 +11,14 @@ defmodule Twima.Mastodon.Fxtwi do
   # "video" => "",
   # "video_mime" => ""
   # }
-  def post!(req, %{"description" => status} = args) do
+  def post!(req, %{"description" => status, "visibility" => visibility} = args) do
     media_id = upload_media!(req, args)
     wait_media_processing!(req, media_id)
 
     Mastodon.post_status!(
       req,
       status: limit_string(status, @char_limit),
-      visibility: "direct",
+      visibility: visibility,
       "media_ids[]": media_id
     )
   end

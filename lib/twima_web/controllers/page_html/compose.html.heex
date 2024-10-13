@@ -21,6 +21,19 @@
   >Originally posted: <%= @url %>
 
   <%= @description %></textarea>
+
+  <label for="visibility" class="block text-sm font-medium text-gray-700 mb-1">Post visibility:</label>
+  <select
+    name="visibility"
+    id="visibility"
+    class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 mb-4"
+  >
+    <option value="public">Public</option>
+    <option value="unlisted">Unlisted</option>
+    <option value="private">Private</option>
+    <option value="direct">Direct</option>
+  </select>
+
   <input type="hidden" name="title" value={@title} />
   <input type="hidden" name="url" value={@url} />
   <input type="hidden" name="image" value={@image} />
